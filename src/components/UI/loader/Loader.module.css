@@ -1,0 +1,22 @@
+.loader {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /*dashed-пунктирная линия*/
+    border: 3px dashed teal;
+    /*наложить анимацию на класс указать 1s-длительность infinite-бесконечность linear-линейность*/
+    animation: rotate 1s infinite linear;
+}
+
+/*@keyframes-ключевые кадры*/
+@keyframes rotate {
+    /*начало анимации*/
+    from {
+        /*   стартовая точка 0 градусов scale()-изменение габаритов*/
+        transform: rotate(0deg) scale(1);
+    }
+    /*конец анимации*/
+    to {
+        transform: rotate(360deg) scale(1.4);
+    }
+}
