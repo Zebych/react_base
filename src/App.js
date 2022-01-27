@@ -6,16 +6,20 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/myModal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
-import axios from "axios";
 import PostService from "./API/PostService";
 import Loader from "./components/UI/loader/Loader";
+import {useFetching} from "./hooks/useFetching";
 
 function App() {
     const [posts, setPosts] = useState([])
     const [filter, setFilter] = useState({sort: '', query: ''})
     const [modal, setModal] = useState(false)
-    const [isPostsLoading, setIsPostsLoading] = useState(false)
 
+    const [fetchPosts,isPostsLoading,postError] = useFetching(async () => {
+            const posts = await PostService.getAll()
+            setPosts(posts)
+        }
+    )
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
     useEffect(() => {
@@ -27,12 +31,6 @@ function App() {
         setModal(false)
     }
 
-    async function fetchPosts() {
-        setIsPostsLoading(true)
-        const posts = await PostService.getAll()
-        setPosts(posts)
-        setIsPostsLoading(false)
-    }
 
     const removePost = (post) => {
         setPosts(posts.filter(({id}) => id !== post.id))
@@ -49,10 +47,12 @@ function App() {
             </MyModal>
 
             <PostFilter filter={filter} setFilter={setFilter}/>
-
+            {postError &&
+            <h1>Произошла ошибка ${postError}</h1>
+            }
             {isPostsLoading
                 ?
-                <div style={{display:'flex',justifyContent:'center',marginTop:50}}>
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}>
                     <Loader/>
                 </div>
                 :
