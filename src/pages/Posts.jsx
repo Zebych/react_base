@@ -3,7 +3,7 @@ import "../styles/App.css"
 import {usePosts} from "../hooks/usePosts";
 import {useFetching} from "../hooks/useFetching";
 import PostService from "../API/PostService";
-import {getPageCount} from "../components/utils/pages";
+import {getPageCount} from "../utils/pages";
 import MyButton from "../components/UI/button/MyButton";
 import MyModal from "../components/UI/myModal/MyModal";
 import PostForm from "../components/PostForm";
